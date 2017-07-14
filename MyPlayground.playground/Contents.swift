@@ -12,3 +12,25 @@ print(tripledValues)
 let number = numbers.lazy.map{$0 * 3}.first!
 print(number)
 
+//tuple
+let tuple = (10,2)
+print(tuple)
+
+// Tuples
+let http400Error = (400, "Bad Request")
+// http400Error is of type (Int, String), and equals (400, "Bad Request")
+
+// Decompose a Tuple's content
+let (requestStatusCode, requestStatusMessage) = http400Error
+
+//typealias
+typealias UnsignedInteger = UInt32
+
+//The ternary conditional operator question ? answer1: answer2
+
+//Nil coalescing -> returns a if a is not nil or b as default if a is nil
+//a ?? b
+
+//stride
+let fourToTwo = Array(stride(from: 4, to: 1, by: -1)) // [4, 3, 2]
+let fourToOne = Array(stride(from:4, through: 1, by: -1)) // [4, 3, 2, 1]
