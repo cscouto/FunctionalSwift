@@ -71,3 +71,19 @@ let composedFunction = { data in
     formatWithCurrency(content: extractElements(data))
 }
 
+
+///functions in vars
+func addTwoNumbers(a: Double, b: Double) -> Double { return a + b }
+func subtractTwoNumbers(a: Double, b: Double) -> Double { return a - b }
+//typealias can be used to create custom Types
+typealias SimpleMath = (Double, Double) -> Double
+//create a var with the custom type
+var simpleMath: SimpleMath
+//add functions to the var
+simpleMath = addTwoNumbers
+simpleMath(4,3)
+simpleMath = subtractTwoNumbers
+simpleMath(4,3)
+
+
+
