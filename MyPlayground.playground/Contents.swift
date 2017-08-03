@@ -55,10 +55,6 @@ var alsoDouble = double
 
 alsoDouble(3) // 6
 
-//let formattedElements = formatWithCurrency(content: elements)
-let composedFunction = { data in
-    formatWithCurrency(content: extractElements(data))
-}
 
 
 ///functions in vars
@@ -100,8 +96,18 @@ let formattedElements = formatWithCurrency(content: elements)
 //using the functions in a functional way
 let composedFunction = {
     data in
-    forma
+    formatWithCurrency(content: extractElements(data))
 }
+composedFunction(content)
+
+///custom operators
+//operatorTypes = prefix, infix postfix
+infix operator |> { associativity left}
+func |> <T, V>(f: @escaping (T) -> V, g: @escaping (V) -> V ) -> (T) -> V {
+    return { x in g(f(x)) }
+}
+let composedWithCustomOperator = extractElements |> formatWithCurrency
+composedWithCustomOperator("10,20,40,30,80,60")
 
 
 
