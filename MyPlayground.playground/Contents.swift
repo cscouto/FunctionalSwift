@@ -55,17 +55,6 @@ var alsoDouble = double
 
 alsoDouble(3) // 6
 
-//functions
-func extractElements(_ content: String) -> [String] {
-    return content.characters.split(separator: ",").map { String($0) }
-}
-
-//let elements = extractElements(content)
-
-func formatWithCurrency(content: [String]) -> [String] {
-    return content.map {"\($0)$"}
-}
-
 //let formattedElements = formatWithCurrency(content: elements)
 let composedFunction = { data in
     formatWithCurrency(content: extractElements(data))
@@ -76,14 +65,43 @@ let composedFunction = { data in
 func addTwoNumbers(a: Double, b: Double) -> Double { return a + b }
 func subtractTwoNumbers(a: Double, b: Double) -> Double { return a - b }
 //typealias can be used to create custom Types
-typealias SimpleMath = (Double, Double) -> Double
+typealias SimpleOperator = (Double, Double) -> Double
 //create a var with the custom type
-var simpleMath: SimpleMath
+var simpleMath: SimpleOperator
 //add functions to the var
 simpleMath = addTwoNumbers
 simpleMath(4,3)
 simpleMath = subtractTwoNumbers
 simpleMath(4,3)
+//passing the function as a parameter for another function
+func calculateResult(mathOperator: SimpleOperator, a: Double, b: Double)-> Double {
+        return mathOperator(a, b)
+}
+//using custom type as a return
+func choosePlusMinus(isPlus: Bool) -> SimpleOperator {
+    return isPlus ? addTwoNumbers : subtractTwoNumbers
+}
+let chosenOperator = choosePlusMinus(isPlus: true)
+print("The result is \(chosenOperator(3.5, 5.5))")
+
+
+///function composition
+//split and map
+let content = "10,20,30,40,50,60,70,80"
+func extractElements(_ content: String) -> [String] {
+    return content.characters.split(separator: ",").map{String($0)}
+}
+let elements = extractElements(content)
+
+func formatWithCurrency(content: [String]) -> [String] {
+    return content.map {"\($0)$"}
+}
+let formattedElements = formatWithCurrency(content: elements)
+//using the functions in a functional way
+let composedFunction = {
+    data in
+    forma
+}
 
 
 
