@@ -83,7 +83,7 @@ print("The result is \(chosenOperator(3.5, 5.5))")
 
 ///function composition
 //split and map
-let content = "10,20,30,40,50,60,70,80"
+let content = "10,20,40,50,60,70,80,30"
 func extractElements(_ content: String) -> [String] {
     return content.characters.split(separator: ",").map{String($0)}
 }
@@ -108,6 +108,22 @@ func |> <T, V>(f: @escaping (T) -> V, g: @escaping (V) -> V ) -> (T) -> V {
 }
 let composedWithCustomOperator = extractElements |> formatWithCurrency
 composedWithCustomOperator("10,20,40,30,80,60")
+let sorted = elements.sorted{ $0 < $1}
+print(sorted)
+
+//currying
+func curried(x: Int) -> (String) -> Float {
+    return {(y: String) -> Float in
+        return Float(x) + Float(y)!
+    }
+}
+func explicityRetunClosure(firstName: String) -> (String) -> String {
+    return { (lastName: String) -> String in
+        return "\(firstName) \(lastName)"
+    }
+}
+let func1 = explicityRetunClosure(firstName: "Joe")
+let func2 =  func1("Doe")
 
 
 
