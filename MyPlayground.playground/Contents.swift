@@ -3,7 +3,7 @@
 import UIKit
 
 //declarative
-let numbers = [1, 2, 3, 4]
+var numbers = [1, 2, 3, 4, 1]
 
 let tripledValues = numbers.map{number in number * 3}
 print(tripledValues)
@@ -125,5 +125,16 @@ func explicityRetunClosure(firstName: String) -> (String) -> String {
 let func1 = explicityRetunClosure(firstName: "Joe")
 let func2 =  func1("Doe")
 
+
+///distinct 
+print(numbers)
+numbers = numbers.reduce([]) { (a: [Int], b: Int) -> [Int] in
+    if a.contains(b) {
+        return a
+    } else {
+        return a + [b]
+    }
+}
+print(numbers)
 
 
