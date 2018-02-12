@@ -2,40 +2,46 @@
 
 import UIKit
 
-//declarative
-var numbers = [1, 2, 3, 4, 1]
-
-let tripledValues = numbers.map{number in number * 3}
-print(tripledValues)
-
-//lazy - only evaluate the first data in the array
-let number = numbers.lazy.map{$0 * 3}.first!
-print(number)
-
-//tuple
+///------------------------TUPLES-------------------------------------
 let tuple = (10,2)
 print(tuple)
 
-// Tuples
 let http400Error = (400, "Bad Request")
 // http400Error is of type (Int, String), and equals (400, "Bad Request")
 
 // Decompose a Tuple's content
 let (requestStatusCode, requestStatusMessage) = http400Error
+print(requestStatusMessage)
 
+
+///------------------------ENUM - ASSOCIATED VALUES-------------------------------------
+enum WeatherType {
+   case cloudy(coverage: Int)
+   case sunny
+   case windy
+}
+
+let today = WeatherType.cloudy(coverage: 100)
+switch today {
+case .cloudy(let coverage) where coverage == 0:
+   print("You must live in Death Valley")
+case .cloudy(let coverage) where (1...50).contains(coverage):
+   print("It's a bit cloudy, with \(coverage)% coverage")
+case .cloudy(let coverage) where (51...99).contains(coverage):
+   print("It's very cloudy, with \(coverage)% coverage")
+case .cloudy(let coverage) where coverage == 100:
+    print("You must live in the UK")
+case .windy:
+   print("It's windy")
+default:
+   print("It's sunny")
+}
+
+///------------------------TYPEALIAS-------------------------------------
 //typealias
 typealias UnsignedInteger = UInt32
 
-//The ternary conditional operator question ? answer1: answer2
-
-//Nil coalescing -> returns a if a is not nil or b as default if a is nil
-//a ?? b
-
-//stride
-let fourToTwo = Array(stride(from: 4, to: 1, by: -1)) // [4, 3, 2]
-let fourToOne = Array(stride(from:4, through: 1, by: -1)) // [4, 3, 2, 1]
-
-//closures
+///------------------------CLOSURES-------------------------------------
 // a closure that has no parameters and return a String
 var hello: () -> (String) = {
     return "Hello!"
@@ -55,11 +61,10 @@ var alsoDouble = double
 
 alsoDouble(3) // 6
 
-
-
 ///functions in vars
 func addTwoNumbers(a: Double, b: Double) -> Double { return a + b }
 func subtractTwoNumbers(a: Double, b: Double) -> Double { return a - b }
+
 //typealias can be used to create custom Types
 typealias SimpleOperator = (Double, Double) -> Double
 //create a var with the custom type
@@ -80,12 +85,51 @@ func choosePlusMinus(isPlus: Bool) -> SimpleOperator {
 let chosenOperator = choosePlusMinus(isPlus: true)
 print("The result is \(chosenOperator(3.5, 5.5))")
 
+///------------------------NIL COALESING - TERNARY CONDITION-------------------------------------
+//Nil coalescing -> returns a if a is not nil or b as default if a is nil
+var name: String?
+print(name ?? "Unknown")
 
-///function composition
+//The ternary conditional operator question ? answer1: answer2
+print(name != nil ? name! : "Other")
+
+
+///------------------------LAZY----------------------------------------------
+//lazy - only evaluate the first data in the array
+var numbers = [1, 2, 3, 4, 1]
+let tripledValues = numbers.map{number in number * 3}
+print(tripledValues)
+
+//use lazy when you dont have to access all the values
+let number = numbers.lazy.map{$0 * 3}.first!
+print(number)
+
+//fibonacci
+
+func fibonnaci(number: Int) -> Int {
+    if number < 2 {
+        return number
+    }else{
+        return fibonnaci(number: number-1) + fibonnaci(number: number-2)
+    }
+}
+let fibonacciSequence = (0...20).map(fibonnaci)
+print(fibonacciSequence[10])
+
+//using lazy
+let lazyFibonacciSequence = Array(0...199).lazy.map(fibonnaci)
+print(lazyFibonacciSequence[19])
+
+///------------------------STRIDE----------------------------------------------
+let fourToTwo = Array(stride(from: 4, to: 1, by: -1)) // [4, 3, 2]
+let fourToOne = Array(stride(from:4, through: 1, by: -1)) // [4, 3, 2, 1]
+
+
+///------------------------HIGH FUNCTIONS-------------------------------------
 //split and map
 let content = "10,20,40,50,60,70,80,30"
 func extractElements(_ content: String) -> [String] {
-    return content.characters.split(separator: ",").map{String($0)}
+    return content.split(separator: ",").map{String($0)}
 }
 let elements = extractElements(content)
 
@@ -102,14 +146,14 @@ composedFunction(content)
 
 ///custom operators
 //operatorTypes = prefix, infix postfix
-infix operator |> { associativity left}
-func |> <T, V>(f: @escaping (T) -> V, g: @escaping (V) -> V ) -> (T) -> V {
-    return { x in g(f(x)) }
-}
-let composedWithCustomOperator = extractElements |> formatWithCurrency
-composedWithCustomOperator("10,20,40,30,80,60")
-let sorted = elements.sorted{ $0 < $1}
-print(sorted)
+//infix |> { associativity left}
+//func |> <T, V>(f: @escaping (T) -> V, g: @escaping (V) -> V ) -> (T) -> V {
+//    return { x in g(f(x)) }
+//}
+//let composedWithCustomOperator = extractElements |> formatWithCurrency
+//composedWithCustomOperator("10,20,40,30,80,60")
+//let sorted = elements.sorted{ $0 < $1}
+//print(sorted)
 
 //currying
 func curried(x: Int) -> (String) -> Float {
