@@ -2,7 +2,7 @@
 
 import UIKit
 
-/////------------------------TYPES-------------------------------------
+/////-------------- ----------TYPES-------------------------------------
 //------STRINGS
 let anyString = "beleza"
 let underlineString = String(repeating: "-", count: anyString.count)
